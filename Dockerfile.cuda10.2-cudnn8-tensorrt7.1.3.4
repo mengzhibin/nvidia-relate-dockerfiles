@@ -1,0 +1,16 @@
+FROM nvidia/cuda:10.2-cudnn8-devel-ubuntu18.04
+
+ARG TAG=cuda10.2-trt7.1.3.4-ga-20200617
+
+RUN apt-get update && apt install -y python3.6 python3-pip && \
+    ln -s /usr/bin/python3.6 /usr/bin/python && \
+    ln -s /usr/bin/pip3 /usr/bin/pip    
+
+WORKDIR /cloning
+
+COPY . .
+
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cloning/TensorRT-7.1.3.4/lib && \
+    pwd && cd TensorRT-7.1.3.4/python && \
+    pip install tensorrt-7.1.3.4-cp36-none-linux_x86_64.whl
+
